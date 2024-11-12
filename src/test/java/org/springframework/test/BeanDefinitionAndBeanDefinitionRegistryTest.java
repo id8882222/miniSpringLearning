@@ -3,6 +3,7 @@ package org.springframework.test;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.test.bean.HelloService;
 
 
 public class BeanDefinitionAndBeanDefinitionRegistryTest {

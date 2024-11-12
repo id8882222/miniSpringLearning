@@ -1,4 +1,4 @@
-package org.springframework.test;
+package org.springframework.test.bean;
 
 public class HelloService {
 

@@ -1,10 +1,20 @@
-package org.springframework.test;
+package org.springframework.test.bean;
 
 public class Person {
 
     private String name;
 
     private int age;
+
+    private Car car;
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public Car getCar() {
+        return car;
+    }
 
     public String getName() {
         return name;
@@ -27,6 +37,7 @@ public class Person {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
+                ", car=" + car +
                 '}';
     }
 }
