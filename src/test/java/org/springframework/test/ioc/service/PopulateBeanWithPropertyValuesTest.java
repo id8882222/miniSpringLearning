@@ -1,4 +1,4 @@
-package org.springframework.test;
+package org.springframework.test.ioc.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.PropertyValue;
@@ -6,8 +6,8 @@ import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanReference;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.test.bean.Car;
-import org.springframework.test.bean.Person;
+import org.springframework.test.ioc.bean.Car;
+import org.springframework.test.ioc.bean.Person;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

@@ -1,13 +1,13 @@
-package org.springframework.test;
+package org.springframework.test.ioc.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.exceptions.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.test.bean.Car;
-import org.springframework.test.bean.Person;
-import org.springframework.test.common.CustomBeanFactoryPostProcessor;
-import org.springframework.test.common.CustomerBeanPostPostProcessor;
+import org.springframework.test.ioc.bean.Car;
+import org.springframework.test.ioc.bean.Person;
+import org.springframework.test.ioc.common.CustomBeanFactoryPostProcessor;
+import org.springframework.test.ioc.common.CustomerBeanPostPostProcessor;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

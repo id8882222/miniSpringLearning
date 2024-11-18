@@ -1,4 +1,4 @@
-package org.springframework.test.bean;
+package org.springframework.test.ioc.bean;
 
 public class Person {
 

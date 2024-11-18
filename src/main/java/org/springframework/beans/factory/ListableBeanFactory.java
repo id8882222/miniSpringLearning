@@ -4,6 +4,9 @@ import org.springframework.beans.exceptions.BeansException;
 
 import java.util.Map;
 
+/**
+ * 对BeanMap中所有bean对象的操作
+ */
 public interface ListableBeanFactory extends BeanFactory{
     /**
      * 返回指定类型的所有实例

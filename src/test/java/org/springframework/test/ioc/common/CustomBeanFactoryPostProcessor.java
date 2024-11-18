@@ -1,4 +1,4 @@
-package org.springframework.test.common;
+package org.springframework.test.ioc.common;
 
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.PropertyValues;

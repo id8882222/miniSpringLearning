@@ -1,8 +1,8 @@
-package org.springframework.test.common;
+package org.springframework.test.ioc.common;
 
 import org.springframework.beans.exceptions.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.test.bean.Car;
+import org.springframework.test.ioc.bean.Car;
 
 public class CustomerBeanPostPostProcessor implements BeanPostProcessor {
     @Override

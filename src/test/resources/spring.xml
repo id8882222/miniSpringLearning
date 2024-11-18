@@ -2,12 +2,16 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="person" class="org.springframework.test.bean.Person">
+    <bean id="person" class="org.springframework.test.ioc.bean.Person">
         <property name="name" value="derek"/>
         <property name="car" ref="car"/>
     </bean>
 
-    <bean id="car" class="org.springframework.test.bean.Car">
+    <bean id="car" class="org.springframework.test.ioc.bean.Car">
         <property name="brand" value="porsche"/>
     </bean>
+
+    <bean class="org.springframework.test.ioc.common.CustomBeanFactoryPostProcessor"></bean>
+    <bean class="org.springframework.test.ioc.common.CustomerBeanPostPostProcessor"></bean>
+
 </beans>
