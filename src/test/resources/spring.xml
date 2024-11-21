@@ -12,6 +12,9 @@
     </bean>
 
     <bean class="org.springframework.test.ioc.common.CustomBeanFactoryPostProcessor"></bean>
+
     <bean class="org.springframework.test.ioc.common.CustomerBeanPostPostProcessor"></bean>
+
+    <bean id="helloService" class="org.springframework.test.ioc.bean.HelloService"/>
 
 </beans>

@@ -7,7 +7,7 @@ import org.springframework.test.ioc.bean.Car;
 public class CustomerBeanPostPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("CustomerBeanPostProcessor#postProcessBeforeInitialization");
+        System.out.println("CustomerBeanPostProcessor#postProcessBeforeInitialization, beanName: " + beanName);
         if("car".equals(beanName)){
             ((Car) bean).setBrand("lamborghini");
         }
@@ -16,7 +16,7 @@ public class CustomerBeanPostPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("CustomerBeanPostProcessor#postProcessAfterInitialization");
+        System.out.println("CustomerBeanPostProcessor#postProcessAfterInitialization, beanName: " + beanName);
         return bean;
     }
 }
