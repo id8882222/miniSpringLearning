@@ -1,11 +1,9 @@
-package org.springframework.test.ioc.service;
+package org.springframework.test.ioc.ioc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.ioc.bean.Car;
-
-import java.lang.annotation.Retention;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 

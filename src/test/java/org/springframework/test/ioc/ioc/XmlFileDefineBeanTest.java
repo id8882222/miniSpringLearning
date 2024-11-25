@@ -1,4 +1,4 @@
-package org.springframework.test.ioc.service;
+package org.springframework.test.ioc.ioc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;

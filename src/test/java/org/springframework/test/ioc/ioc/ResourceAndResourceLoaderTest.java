@@ -1,4 +1,4 @@
-package org.springframework.test.ioc.service;
+package org.springframework.test.ioc.ioc;
 
 import cn.hutool.core.io.IoUtil;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.assertj.core.api.Java6Assertions.in;
 
 public class ResourceAndResourceLoaderTest {
     @Test
