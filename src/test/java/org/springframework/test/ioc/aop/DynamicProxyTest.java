@@ -11,6 +11,7 @@ import org.springframework.aop.TargetSource;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.framework.CglibAopProxy;
 import org.springframework.aop.framework.JdkDynamicAopProxy;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.test.ioc.common.event.WorldServiceInterceptor;
 import org.springframework.test.ioc.service.WorldService;
 import org.springframework.test.ioc.service.WorldServiceImpl;
@@ -42,20 +43,15 @@ public class DynamicProxyTest {
         proxy.explore();
     }
 
-//    @Test
-//    public void testJdkDynamicProxy() throws Exception{
-//        WorldService worldService = new WorldServiceImpl();
-//
-//        AdvisedSupport advisedSupport = new AdvisedSupport();
-//        TargetSource targetSource = new TargetSource(worldService);
-//        WorldServiceInterceptor methodInterceptor = new WorldServiceInterceptor();
-//        MethodMatcher methodMatcher = new AspectJExpressionPointcut("execution (* org.springframework.test.ioc.service.WorldService.explore(..))").getMethodMatcher();
-//
-//        advisedSupport.setTargetSource(targetSource);
-//        advisedSupport.setMethodInterceptor(methodInterceptor);
-//        advisedSupport.setMethodMatcher(methodMatcher);
-//
-//        WorldService proxy = (WorldService) new JdkDynamicAopProxy(advisedSupport).getProxy();
-//        proxy.explore();
-//    }
+    @Test
+    public void testProxyFactory(){
+        //使用jdk动态代理
+        advisedSupport.setProxyTargetClass(false);
+        WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+        proxy.explore();
+        //使用CGlib动态代理
+        advisedSupport.setProxyTargetClass(true);
+        proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+        proxy.explore();
+    }
 }
