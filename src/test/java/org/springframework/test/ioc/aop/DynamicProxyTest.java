@@ -3,16 +3,16 @@ package org.springframework.test.ioc.aop;
 
 
 
+import org.aopalliance.intercept.MethodInterceptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.aop.AdvisedSupport;
-import org.springframework.aop.GenericInterceptor;
-import org.springframework.aop.MethodMatcher;
-import org.springframework.aop.TargetSource;
+import org.springframework.aop.*;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
+import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.springframework.aop.framework.CglibAopProxy;
 import org.springframework.aop.framework.JdkDynamicAopProxy;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.framework.adapter.MethodBeforeAdvisorInterceptor;
 import org.springframework.test.ioc.common.WorldServiceBeforeAdvice;
 import org.springframework.test.ioc.common.event.WorldServiceInterceptor;
 import org.springframework.test.ioc.service.WorldService;
@@ -68,5 +68,32 @@ public class DynamicProxyTest {
 
         WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
         proxy.explore();
+    }
+
+    @Test
+    public void testAdvisor() throws Exception{
+        WorldService worldService = new WorldServiceImpl();
+
+        //advisor是Pointcut和advice的结合
+        String expression = "execution(* org.springframework.test.ioc.service.WorldService.explore(..))";
+        AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
+        advisor.setExpression(expression);
+        MethodBeforeAdvisorInterceptor methodInterceptor = new MethodBeforeAdvisorInterceptor(new WorldServiceBeforeAdvice());
+        advisor.setAdvice(methodInterceptor);
+
+        ClassFilter classFilter = advisor.getPointcut().getClassFilter();
+        if(classFilter.matches(worldService.getClass())){
+            AdvisedSupport advisedSupport = new AdvisedSupport();
+
+            TargetSource targetSource  = new TargetSource(worldService);
+            advisedSupport.setTargetSource(targetSource);
+            advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
+            advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
+
+            WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+            proxy.explore();
+
+        }
+
     }
 }
