@@ -6,15 +6,18 @@ package org.springframework.test.ioc.aop;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.AdvisedSupport;
+import org.springframework.aop.GenericInterceptor;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.framework.CglibAopProxy;
 import org.springframework.aop.framework.JdkDynamicAopProxy;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.test.ioc.common.WorldServiceBeforeAdvice;
 import org.springframework.test.ioc.common.event.WorldServiceInterceptor;
 import org.springframework.test.ioc.service.WorldService;
 import org.springframework.test.ioc.service.WorldServiceImpl;
+import org.springframework.test.ioc.service.WorldServiceWithExceptionImpl;
 
 public class DynamicProxyTest {
     private AdvisedSupport advisedSupport;
@@ -52,6 +55,18 @@ public class DynamicProxyTest {
         //使用CGlib动态代理
         advisedSupport.setProxyTargetClass(true);
         proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+        proxy.explore();
+    }
+
+    @Test
+    public void testBeforeAdvice() throws Exception{
+        //设置BeforeAdvice
+        WorldServiceBeforeAdvice beforeAdvice = new WorldServiceBeforeAdvice();
+        GenericInterceptor methodInterceptor = new GenericInterceptor();
+        methodInterceptor.setBeforeAdvice(beforeAdvice);
+        advisedSupport.setMethodInterceptor(methodInterceptor);
+
+        WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
         proxy.explore();
     }
 }
