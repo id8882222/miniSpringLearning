@@ -5,8 +5,10 @@ import org.springframework.beans.PropertyValues;
 import org.springframework.beans.exceptions.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.context.util.StringValueResolver;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+
 
 import java.io.IOException;
 import java.util.Properties;
@@ -25,6 +27,10 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
         Properties properties = loadProperties();
         //属性值替换占位符
         processProperties(beanFactory, properties);
+
+        //往容器中添加字符解析器，供解析@Value注解使用
+        StringValueResolver valueResolver = new PlaceholderResolvingStringValueResolver(properties);
+        beanFactory.addEmbeddedValueResolver(valueResolver);
     }
 
     /**
@@ -77,7 +83,32 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
         }
     }
 
+    private String resolvePropertyholder(String value, Properties properties){
+        String strVal = value;
+        StringBuffer buf = new StringBuffer(strVal);
+        int startIndex = strVal.indexOf(PLACEHOLDER_PREFIX);
+        int endIndex = strVal.indexOf(PLACEHOLDER_SUFFIX);
+        if(startIndex != -1 && endIndex != -1 && startIndex < endIndex){
+            String propKey = strVal.substring(startIndex + 2, endIndex);
+            String propVal = properties.getProperty(propKey);
+            buf.replace(startIndex, endIndex + 1, propVal);
+        }
+        return buf.toString();
+    }
+
     public void setLocation(String location){
         this.location = location;
+    }
+
+    private class PlaceholderResolvingStringValueResolver implements StringValueResolver {
+        private final Properties properties;
+
+        public PlaceholderResolvingStringValueResolver(Properties properties){
+            this.properties = properties;
+        }
+        @Override
+        public String resolveStringValue(String strVal) {
+            return PropertyPlaceholderConfigurer.this.resolvePropertyholder(strVal, properties);
+        }
     }
 }

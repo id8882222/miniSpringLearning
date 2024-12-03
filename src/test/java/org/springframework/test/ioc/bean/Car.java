@@ -1,9 +1,11 @@
 package org.springframework.test.ioc.bean;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.stereotype.Component;
 
 @Component
 public class Car {
+    @Value("${brand}")
     private String brand;
 
 

@@ -1,6 +1,7 @@
 package org.springframework.context.annotation;
 
 import cn.hutool.core.util.StrUtil;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.stereotype.Component;
@@ -8,6 +9,7 @@ import org.springframework.context.stereotype.Component;
 import java.util.Set;
 
 public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateComponentProvider{
+    public static final String AUTOWIRED_ANNOTATION_PROCCESSOR_BEAN_NAME = "org.springframework.beans.factory.annotation.internalAutowiredAnnotationProcessor";
     private BeanDefinitionRegistry registry;
     public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry){
         this.registry = registry;
@@ -27,6 +29,7 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
                 registry.registerBeanDefinition(beanName, candidate);
             }
         }
+        registry.registerBeanDefinition(AUTOWIRED_ANNOTATION_PROCCESSOR_BEAN_NAME, new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
     }
 
     /**
