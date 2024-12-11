@@ -3,12 +3,12 @@ package org.springframework.beans.factory.support;
 
 
 import org.springframework.beans.exceptions.BeansException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.util.StringValueResolver;
+import org.springframework.core.convert.ConversionService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +21,8 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     private final Map<String, Object> factoryBeanObjectCache = new HashMap<>();
 
     private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<StringValueResolver>();
+
+    private ConversionService conversionService;
     @Override
     public Object getBean(String name) throws BeansException {
         Object sharedInstance = getSingleton(name);
@@ -67,6 +69,14 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     }
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException;
+
+    @Override
+    public boolean containsBean(String name){
+        return containsBeanDefinition(name);
+    }
+
+    protected abstract boolean containsBeanDefinition(String beanName);
+
     protected abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
     @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor){
@@ -91,4 +101,16 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         }
         return result;
     }
+
+    @Override
+    public ConversionService getConversionService(){
+        return conversionService;
+    }
+
+    @Override
+    public void setConversionService(ConversionService conversionService){
+        this.conversionService = conversionService;
+    }
+
+
 }

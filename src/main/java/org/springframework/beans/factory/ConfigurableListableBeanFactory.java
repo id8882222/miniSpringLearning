@@ -5,6 +5,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.core.convert.ConversionService;
 
 public interface ConfigurableListableBeanFactory extends ListableBeanFactory, AutowireCapableBeanFactory, ConfigurableBeanFactory {
     /**
@@ -22,4 +23,8 @@ public interface ConfigurableListableBeanFactory extends ListableBeanFactory, Au
     void preInstantiateSingletons() throws BeansException;
 
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
+
+    void setConversionService(ConversionService conversionService);
+
+    ConversionService getConversionService();
 }
