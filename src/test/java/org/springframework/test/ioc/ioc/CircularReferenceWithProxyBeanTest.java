@@ -1,0 +1,19 @@
+package org.springframework.test.ioc.ioc;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.ioc.bean.A;
+import org.springframework.test.ioc.bean.B;
+
+import static org.assertj.core.api.Java6Assertions.assertThat;
+
+public class CircularReferenceWithProxyBeanTest {
+    @Test
+    public void testCircularReference() throws Exception{
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:circular-reference-with-proxy-bean.xml");
+        A a = applicationContext.getBean("a", A.class);
+        B b = applicationContext.getBean("b", B.class);
+
+        assertThat(b.getA() != a).isTrue();
+    }
+}
