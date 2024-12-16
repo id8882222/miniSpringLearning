@@ -11,6 +11,8 @@ import org.springframework.beans.exceptions.BeansException;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.*;
 import org.springframework.context.annotation.Bean;
 import cn.hutool.core.bean.BeanUtil;
@@ -65,7 +67,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
             //为了解决循环依赖问题，将实例化后的bean放进缓存提前暴露
             if(beanDefinition.isSingleton()){
-                earlySingletonObjects.put(beanName, bean);
+                Object finalBean = bean;
+                addSingletonFactory(beanName, new ObjectFactory<Object>() {
+                    @Override
+                    public Object getObject() throws BeansException {
+                        return getEarlyBeanReference(beanName, beanDefinition, finalBean);
+                    }
+                });
             }
 
             //实例化bean之后执行
@@ -84,11 +92,27 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
         //注册有销毁方法的bean
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+        Object exposeObject = bean;
         if(beanDefinition.isSingleton()){
-            addSingleton(beanName, bean);
+            //如果有代理对象，此处获取代理对象
+            exposeObject = getSingleton(beanName);
+            addSingleton(beanName, exposeObject);
         }
 
-        return bean;
+        return exposeObject;
+    }
+
+    protected Object getEarlyBeanReference(String beanName, BeanDefinition beanDefinition, Object bean){
+        Object exposeObject = bean;
+        for(BeanPostProcessor bp : getBeanPostProcessors()){
+            if(bp instanceof InstantiationAwareBeanPostProcessor){
+                exposeObject = ((InstantiationAwareBeanPostProcessor) bp).getEarlyBeanReference(exposeObject, beanName);
+                if(exposeObject == null){
+                    return exposeObject;
+                }
+            }
+        }
+        return exposeObject;
     }
 
     /**

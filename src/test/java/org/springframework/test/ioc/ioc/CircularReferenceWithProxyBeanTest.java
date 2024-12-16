@@ -14,6 +14,6 @@ public class CircularReferenceWithProxyBeanTest {
         A a = applicationContext.getBean("a", A.class);
         B b = applicationContext.getBean("b", B.class);
 
-        assertThat(b.getA() != a).isTrue();
+        assertThat(b.getA() == a).isTrue();
     }
 }
