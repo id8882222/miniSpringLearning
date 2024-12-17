@@ -40,6 +40,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     public static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
     public static final String COMPONENT_SCAN_ELEMENT = "component-scan";
 
+    public static final String LAZYINIT_ATTRIBUTE = "lazy-init";
+
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
     }
@@ -86,6 +88,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             String initMethodName = bean.attributeValue(INIT_METHOD_ATTRIBUTE);
             String destroyMethodName = bean.attributeValue(DESTROY_METHOD_ATTRIBUTE);
             String beanScope = bean.attributeValue(SCOPE_ATTRIBUTE);
+            String lazyInit = bean.attributeValue(LAZYINIT_ATTRIBUTE);
             Class<?> clazz = null;
 
             try{
@@ -103,6 +106,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
             beanDefinition.setInitMethodName(initMethodName);
             beanDefinition.setDestroyMethodName(destroyMethodName);
+            beanDefinition.setLazyInit(Boolean.parseBoolean(lazyInit));
             if (StrUtil.isNotEmpty(beanScope)) {
                 beanDefinition.setScope(beanScope);
             }

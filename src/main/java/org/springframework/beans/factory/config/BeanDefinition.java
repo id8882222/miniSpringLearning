@@ -18,9 +18,20 @@ public class BeanDefinition {
 
     private String scope = SCOPE_SINGLETON;
 
+    private boolean lazyInit = false;
+
     private boolean singleton = true;
 
     private boolean prototype = false;
+
+    public boolean isLazyInit() {
+        return lazyInit;
+    }
+
+    public void setLazyInit(boolean lazyInit) {
+        this.lazyInit = lazyInit;
+    }
+
 
     public void setScope(String scope) {
         this.scope = scope;

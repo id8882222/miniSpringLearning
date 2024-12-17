@@ -3,6 +3,7 @@ package org.springframework.test.ioc.bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -15,6 +16,8 @@ public class Car {
 
     @Value("${brand}")
     private String brand;
+
+    private long date;
 
     public int getPrice() {
         return price;
@@ -47,6 +50,15 @@ public class Car {
                 ", produceDate=" + produceDate +
                 ", brand='" + brand + '\'' +
                 '}';
+    }
+
+    public void init(){
+        date = System.currentTimeMillis();
+    }
+
+    public void showTime(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+        System.out.println(date + ":bean create");
     }
 
 }
